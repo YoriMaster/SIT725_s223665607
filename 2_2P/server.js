@@ -12,11 +12,14 @@ app.get('/add', (req, res) => {
     const b = parseFloat(req.query.b);
 
     if (isNaN(a) || isNaN(b)) {
-        return res.send('Usage: /add?a=number&b=number');
+        return res.send("Error: Please provide valid numbers. Example: /add?a=3&b=4");
     }
 
     const sum = a + b;
-    res.json({ a, b, sum });
+    res.send(`
+        <p>Result = <strong>${sum}</strong></p>
+        <a href="/">Back</a>
+    `);
 });
 
 // In-memory array to store quotes
