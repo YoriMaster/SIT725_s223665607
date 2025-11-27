@@ -1,0 +1,14 @@
+{
+  "name": "3_2p",
+  "version": "1.0.0",
+  "description": "3_2P",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
