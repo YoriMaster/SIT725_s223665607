@@ -1,4 +1,13 @@
-const cardList = [
+const getProjects = () => {
+    $.get('/api/projects', (response) => {
+        if (response.statusCode == 200) {
+            addCards(response.data);
+        }
+    })
+}
+
+
+/* const cardList = [
     {
         title: "2010 Holden Cruze",
         image: "images/Holden.jpg",
@@ -6,21 +15,21 @@ const cardList = [
         link: "https://www.facebook.com/share/16Tr79hvGd/",
         desciption: "Water tank issue, need to replace the whole engine cooling system"
     },
-    {   
+    {
         title: "2008 Audi TT",
         image: "images/Audi.jpg",
         linkText: "2024.8 - 2025.6",
         link: "https://www.facebook.com/share/15S2Vp59EHE/",
         desciption: "Air intake issue, couldn't solve it"
     },
-    {   
+    {
         title: "2010 Golf TSI",
         image: "images/VW.jpg",
         linkText: "2025.6 - now",
         link: "#",
         desciption: "German car, best car"
     }
-]
+] */
 const clickMe = () => {
     alert("Thanks for clicking me. Hope you have a nice day!")
 }
@@ -50,6 +59,6 @@ $(document).ready(function () {
     $('#formSubmit').click(() => {
         submitForm();
     })
-    addCards(cardList);
+    getProjects();
     $('.modal').modal();
 });
