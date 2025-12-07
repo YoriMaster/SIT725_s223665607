@@ -15,25 +15,21 @@ mongoose.connection.on('connected', () => {
 });
 
 const ProjectSchema = new mongoose.Schema({
-    Name: {
-        type: String,
-        required: true,
-    },
-    Age: {
-        type: Number,
-        min: 0,
-        max: 80,
-    },
-    Nationality: String,
+    title: String,
+    image: String,
+    linkText: String,
     link: String,
-    skills: [String],
-    time: { type: Date, default: Date.now },
+    description: String
 });
 const Project = mongoose.model('Project', ProjectSchema);
 
 app.get("/api/projects", async (req, res) => {
-    const projects = await Project.find({});
-    res.json({ statusCode: 200, data: Project, message: "success" })
+    try {
+        const projects = await Project.find({});
+        res.json({ statusCode: 200, data: projects, message: "success" })
+    } catch (err) {
+        res.status(500).json({ statusCode: 500, message: err.message });
+    }
 })
 
 app.listen(port, () => {

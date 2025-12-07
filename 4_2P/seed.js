@@ -5,40 +5,36 @@ mongoose.connect("mongodb://localhost:27017/myprojectDB")
     .catch(err => console.log(err));
 
 const ProjectSchema = new mongoose.Schema({
-    Name: {
-        type: String,
-        required: true,
-    },
-    Age: {
-        type: Number,
-        min: 0,
-        max: 80,
-    },
-    Nationality: String,
+    title: String,
+    image: String,
+    linkText: String,
     link: String,
-    skills: [String],
-    time: { type: Date, default: Date.now },
+    description: String
 });
 
 const Project = mongoose.model('Project', ProjectSchema);
 
 const sampleData = [
     {
-        Name: "Yori Zhuang",
-        Age: "26",
-        Nationality: "Chinese",
-        Link: "https://www.instagram.com/yori11zhuang",
-        skills: ["coding", "front-end design", "app Testing"],
-        time: Date.now(),
+        title: "2010 Holden Cruze",
+        image: "images/Holden.jpg",
+        linkText: "2023.10 - 2024.8",
+        link: "https://www.facebook.com/share/16Tr79hvGd/",
+        description: "Water tank issue, need to replace the whole engine cooling system"
     },
     {
-        Name: "John Cena",
-        Age: "48",
-        Nationality: "American",
-        Link: "https://www.instagram.com/johncena/",
-        skills: ["WWE", "Movie Acting", "Rapping"],
-        time: Date.now(),
-
+        title: "2008 Audi TT",
+        image: "images/Audi.jpg",
+        linkText: "2024.8 - 2025.6",
+        link: "https://www.facebook.com/share/15S2Vp59EHE/",
+        description: "Air intake issue, couldn't solve it"
+    },
+    {
+        title: "2010 Golf TSI",
+        image: "images/VW.jpg",
+        linkText: "2025.6 - now",
+        link: "#",
+        description: "German car, best car"
     }
 ];
 
