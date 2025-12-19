@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Books</title>
+</head>
+
+<body>
+    <h1>Books Catalog developed by s223665607</h1>
+    <p>Click the button below to get all book items from the server:</p>
+    <button id="fetchBookItemsBtn">Get Book Items</button>
+    <div id="bookItemsDisplay"></div>
+
+    <p id="bookDetail" style="display:none;"></p>
+
+    <script>
+        const btn = document.getElementById('fetchBookItemsBtn');
+        const out = document.getElementById('bookItemsDisplay');
+        const detail = document.getElementById('bookDetail');
+
+        function render(items) {
+            out.innerHTML = '';
+            detail.style.display = 'none';
+
+            if (!Array.isArray(items) || items.length === 0) {
+                out.textContent = 'No items';
+                return;
+            }
+            for (const it of items) {
+                const p = document.createElement('p');
+
+                const price =
+                    typeof it.price === 'string'
+                        ? it.price
+                        : (it.price && it.price.$numberDecimal) || it.price || '';
+                p.textContent = `${it.title} ${price} ${it.currency || 'AUD'} `;
+                p.style.cursor = 'pointer';
+
+                p.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch(`/api/book/${it.id}`);
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                        const book = await res.json();
+                        detail.style.display = 'block';
+                        detail.innerHTML = `
+                            <strong>Title:</strong> ${book.title}<br>
+                            <strong>Author:</strong> ${book.author}<br>
+                            <strong>Year:</strong> ${book.year}<br>
+                            <strong>Genre:</strong> ${book.genre}<br>
+                            <strong>Summary:</strong> ${book.summary}<br>
+                            <strong>Price:</strong> ${book.price} ${book.currency || 'AUD'}
+                        `;
+                    } catch (err) {
+                        console.error('Error fetching book detail:', err);
+                        detail.textContent = 'Error fetching book detail.';
+                        detail.style.display = 'block';
+                    }
+                });
+                
+                out.appendChild(p);
+            }
+        }
+
+        btn.addEventListener('click', async () => {
+            out.textContent = 'Loading...';
+            detail.style.display = 'none';
+            try {
+                const res = await fetch('/api/book'); // correct endpoint
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const body = await res.json();        // { statusCode, data, message }
+                render(body.data);
+            } catch (err) {
+                console.error('Error fetching book items:', err);
+                out.textContent = 'Error fetching book items.';
+            }
+        });
+    </script>
+</body>
+
+</html>
